@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant Stack as Stack (map 변수)
+    participant Heap as Heap (Map 객체)
+    participant Data as Map 내부 데이터
+    
+    Stack->>Heap: 1. map 변수가 힙 주소 참조
+    Heap->>Data: 2. Map 객체가 내부 데이터 관리
+    Data->>Data: 3. key1 → value1 매핑
+    Data->>Data: 4. key2 → value2 매핑

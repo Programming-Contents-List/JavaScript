@@ -47,4 +47,4 @@
 
 ### Js로 Object의 Heap Memory 접근
 
-- Js는 메모리 안전 언어(memory safe language)이기 때문에 C,C++ 과 같이 메모리의 접근, 주소가 불가능 하다.
+- [참고](_ref.doc/heap/README.md)

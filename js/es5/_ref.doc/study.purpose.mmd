@@ -1,0 +1,41 @@
+graph LR
+    subgraph "기초 개념"
+        A1["Heap 메모리"]
+        A2["Stack 메모리"]
+        A3["참조 vs 값"]
+    end
+    
+    subgraph "JavaScript 한계"
+        B1["메모리 주소 접근 불가"]
+        B2["가비지 컬렉션"]
+        B3["메모리 관리 제한"]
+    end
+    
+    subgraph "해결 방법"
+        C1["Cache 설계"]
+        C2["클로저 활용"]
+        C3["싱글톤 패턴"]
+        C4["IIFE 패턴"]
+    end
+    
+    subgraph "구현"
+        D1["Map 기반 Cache"]
+        D2["가상 메모리 주소"]
+        D3["객체 식별자 시스템"]
+    end
+    
+    A1 --> B1
+    A2 --> B2
+    A3 --> B3
+    B1 --> C1
+    B2 --> C2
+    B3 --> C3
+    C1 --> C4
+    C2 --> D1
+    C3 --> D2
+    C4 --> D3
+    
+    style A1 fill:#e1f5fe,color:#000000
+    style B1 fill:#fff3e0,color:#000000
+    style C1 fill:#f3e5f5,color:#000000
+    style D1 fill:#e8f5e8,color:#000000

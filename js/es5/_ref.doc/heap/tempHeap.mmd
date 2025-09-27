@@ -1,0 +1,25 @@
+graph LR
+    subgraph "Stack"
+        A["map 변수"]
+    end
+    
+    subgraph "Heap"
+        B["Map 객체<br/>0x12345678"]
+        C["key1"]
+        D["value1"]
+        E["key2"]
+        F["value2"]
+    end
+    
+    A -->|참조| B
+    B -->|내부 참조| C
+    C -->|매핑| D
+    B -->|내부 참조| E
+    E -->|매핑| F
+    
+    style A fill:#e1f5fe,color:#000000
+    style B fill:#f3e5f5,color:#000000
+    style C fill:#fff8e1,color:#000000
+    style D fill:#fff8e1,color:#000000
+    style E fill:#fff8e1,color:#000000
+    style F fill:#fff8e1,color:#000000
