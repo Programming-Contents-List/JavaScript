@@ -3,13 +3,17 @@ sequenceDiagram
     participant H as Heap 개념
     participant C as Cache 설계
     participant CL as 클로저
+    participant E as 캡슐화
     participant S as 싱글톤
+    participant D as 데이터 은닉
     participant I as IIFE
     participant P as 프로젝트
     
     U->>H: 1. Heap 메모리 구조 이해
     U->>C: 2. Cache를 Heap 구조로 설계
     U->>CL: 3. 클로저로 private 변수 구현
-    U->>S: 4. 싱글톤으로 인스턴스 관리
-    U->>I: 5. IIFE로 즉시 실행 패턴
-    U->>P: 6. 실제 프로젝트에 적용
+    U->>E: 4. 캡슐화로 데이터와 메서드 결합
+    U->>S: 5. 싱글톤으로 인스턴스 관리
+    U->>D: 6. 데이터 은닉으로 접근 제어
+    U->>I: 7. IIFE로 즉시 실행 패턴
+    U->>P: 8. 실제 프로젝트에 적용
