@@ -1,5 +1,5 @@
 /**
- * 나누수로 생성된 키값 생성
+ * @description 난수로 생성된 키값 생성
  */
 function createKey(){
     const random = Math.random();

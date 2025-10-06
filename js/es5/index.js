@@ -11,6 +11,9 @@ MyConsole.log(createCache("key", "value").get("key"));
 
 generateElement.set();
 // generateElement.setValue("Testvalue");
-// MyConsole.log(generateElement.initialize("Testvalue"));
+console.log("---");
+MyConsole.log(generateElement.initialize("Testvalue"));
 MyConsole.log(generateElement.key);
+const test = generateElement.key = "newKey";
+MyConsole.log(test);
 MyConsole.log(generateElement.get());
