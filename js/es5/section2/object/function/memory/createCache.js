@@ -1,3 +1,5 @@
+// import createKey from "./createKey.js";
+
 /**
  * 최대한 캐시를 추상적으로 만들어야 한다. 정말 생성만 하는 하나의 행동만 가지고 있다.
  * 그렇다면, 생성이 후, get은 어디서 하는가? - get은 literal에서 동작하며 거기서 key와 value의 값을 관리할 수 있게 한다.
@@ -6,10 +8,50 @@
  * 
  * @todo 현재 전역 cache를 생성하기 전에 cache의 데이터를 확인할 수 있는 코드를 구현한다. 그렇다면 cache = new Map()이 아마도 매개변수로 받아서 하나의 map을 바라 봐야하지 않을까?
  */
+
+let globalCache = new Map();
+
+function getGlobalCache(){
+    return globalCache;
+}
+
+function setGlobalCache(key, value){
+    globalCache.set(key, value);
+    return globalCache;
+}
+
+function clearGlobalCache(){
+    globalCache.clear();
+}
+
+function callAllGlobalCacheEntries(){
+    const entires = [];
+    globalCache.forEach((value, key) => {
+        entires.push({key, value});
+    });
+    return entires;
+}
+
+function getGlobalCacheSize(){
+    return globalCache.size;
+}
+
+function getGlobalCacheKeys(){
+    return Array.from(globalCache.keys());
+}
+
 function createCache(key, value){
     const cache = new Map();
     cache.set(key, value);
     return cache;
 }
 
-export default createCache;
+export default createCache
+export{
+    getGlobalCache,
+    setGlobalCache,
+    clearGlobalCache,
+    callAllGlobalCacheEntries,
+    getGlobalCacheSize,
+    getGlobalCacheKeys
+};
