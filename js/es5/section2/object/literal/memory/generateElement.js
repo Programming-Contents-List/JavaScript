@@ -19,7 +19,8 @@ import createCache from "../../function/memory/createCache.js";
  * 3(option). set 프로퍼티를 통해서 생성된 generateElement의 key와 value를 캐시에 저장한다.
  * 4(option). get 프로퍼티를 통해서 generateElement의 key와 value를 캐시에서 가져온다.
  * * notify-1 : 해당 generateElement는 일회성이다. 즉, index에서 key 값을 다시 호출해서 선언(재할당)을 하게 되면, 새로운 createKey가 동작하면서, heap의 값을 새로 생성하게 된다. 이로 인해서 메모리 누수가 발생할 수 있다.
- * * notify-2 : 선언한 key 값이 외부에서 변경될 경우, 기존 새로 heap에 생성된 key 값의 참조가 변경된다. 이로 인해서 의도치 않은, 확인 되지 않은 값들이 생성되거나 저장 될 수 있다.
+ * * notify-2 : 해당 코드 key는 싱글톤으로 createKey가 한번 호출되어서 사용되고 있다. 그래서 가시적으로 같인 key 값을 호출 하디만, 메모리상 다른 공간을 사용하고 있다.
+ * * notify-3 : 선언한 key 값이 외부에서 변경될 경우, 기존 새로 heap에 생성된 key 값의 참조가 변경된다. 이로 인해서 의도치 않은, 확인 되지 않은 값들이 생성되거나 저장 될 수 있다.
  */
 
 const generateElement = {
