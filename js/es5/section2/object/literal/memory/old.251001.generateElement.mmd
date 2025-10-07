@@ -1,0 +1,29 @@
+%% 2025-10-01
+%% [link](https://github.com/Programming-Contents-List/JavaScript/blob/087fa3c0e1dd431158b321039edf43cd45fee11c/js/es5/section2/object/literal/memory/generateElement.js#L27)
+graph LR
+    %% subgraph "과거 구조 (싱글톤 + 로컬 캐시)"
+        subgraph Stack1["Stack"]
+            A1["generateElement ─▶ #1000"]
+        end
+        
+        subgraph Heap1["Heap"]
+            B1["#1000: generateElement 객체<br/>key: createKey() 한번만<br/>value: null"]
+            subgraph Map1["Map #2000"]
+                C1["#2001: 로컬 캐시 Map1<br/>key: k1(GC)<br/>value: Testvalue1"]
+                C2["#2002: 로컬 캐시 Map2<br/>key: k1(GC)<br/>value: Testvalue2"]
+                C3["#2003: 로컬 캐시 Map3<br/>key: k1<br/>value: Testvalue3"]
+            end
+        end
+    %% end
+
+A1 --> B1
+B1 -.-> C1
+B1 -.-> C2
+B1 -.-> C3
+
+style Map1 fill:#808080,color:#000000
+style A1 fill:#bbdefb,color:#000000
+style B1 fill:#bbdefb,color:#000000
+style C1 fill:#ffcdd2,color:#000000
+style C2 fill:#ffcdd2,color:#000000
+style C3 fill:#ffcdd2,color:#000000
