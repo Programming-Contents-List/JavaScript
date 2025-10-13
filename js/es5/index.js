@@ -1,8 +1,8 @@
-import createCache from "./section2-1/object/function/memory/createCache.js";
+import createCache from "./section2-2/object/function/memory/createCache.js";
 /** MyConsole은 Symbol은 보여줄 수 없게 되어 있어서 발생하는 문제.  */
 // import MyConsole from "./section2/object/literal/console.js";
-import generateElement from "./section2-1/object/literal/memory/generateElement.js";
-import { getGlobalCache, setGlobalCache, clearGlobalCache, callAllGlobalCacheEntries, getGlobalCacheSize, getGlobalCacheKeys } from "./section2-1/object/function/memory/createCache.js";
+import generateElement from "./section2-2/object/literal/memory/generateElement.js";
+import { getGlobalCache, setGlobalCache, clearGlobalCache, callAllGlobalCacheEntries, getGlobalCacheSize, getGlobalCacheKeys } from "./section2-2/object/function/memory/createCache.js";
 
 /**
  * 힙에 맞춰서 캐시 저장 - 팩토리 패턴 사용
