@@ -19,7 +19,8 @@ import { setGlobalCache, getGlobalCache } from "../../function/memory/createCach
  *   - 싱글톤으로 하나의 객체를 참고 하고 있기 때문에 동적으로 데이터가 할당 되지 않는다. 이로인해서 팩토리를 사용해서 고유하지 않게 코드를 구현 하는 것이 맞다.
  *   - 하지만, 내가 생각한 탈 함수형에 가깝다고 볼 수 없다. 즉, 객체 리터럴을 기반으로 함수형이 동작을 해야한다.
  * * notify-3 : 선언한 key 값이 외부에서 변경될 경우, 기존 새로 heap에 생성된 key 값의 참조가 변경된다. 이로 인해서 의도치 않은, 확인 되지 않은 값들이 생성되거나 저장 될 수 있다.
- * @todo : generateElement가 생성됨과 동시에 힙영역에 발생한 메모리와 cache가 sync가 맞아야 한다.
+ * @todo section/2 : generateElement가 생성됨과 동시에 힙영역에 발생한 메모리와 cache가 sync가 맞아야 한다. - globalCache를 사용해서 문제 해결 단, key값을 외부에서 변경이 가능하다.
+ * @todo section/2-1 : key값을 외부에서 차단할 수 있도록 구현이 필요하다.
  * - 팩토리얼 적용 이후
  * 1. create로 생성된 객체를 식별자로 관리한다.
  * 2. initialize로 value를 설정한다.
