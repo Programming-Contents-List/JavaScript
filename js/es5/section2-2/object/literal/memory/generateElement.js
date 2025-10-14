@@ -1,4 +1,5 @@
-import createKey from "../../function/memory/createKey.js";
+// import createKey from "../../function/memory/createKey.js";
+import createElement from "../../function/createElement.js";
 // import createCache from "../../function/memory/createCache.js";
 import { setGlobalCache, getGlobalCache } from "../../function/memory/createCache.js";
 /**
@@ -30,31 +31,42 @@ import { setGlobalCache, getGlobalCache } from "../../function/memory/createCach
  */
 
 const generateElement = {
-    key : null,
-    value : null,
-
+    element : null,
     /**
      * @title 생성 책임
      * @description create 프로퍼티는 새로운 객체를 생성하는 프로퍼티이다.
      * @remark create 프로퍼티는 새로운 객체를 생성한다. 단, generateElement의 프로퍼티를 상속 받고 있어 역할 분리가 명확하지 않다. 더불어서 현재, 팩토리 기반일 뿐, 캡슐화가 되어 있지 않아서, 객체 변경 시 외부에서 접근이 가능하다.
-     * @todo 여기서 create는 과연 관심사 분리가 명확한가?
+     * @todo 여기서 create는 과연 관심사 분리가 명확한가? - 명확하지 않다. generateElement는 create만 가지고 있어야한다. 즉, generateElement의 역할은 Element를 잉태하고 있어야하는 관점이 맞고 이를 생성하는 역할은 create가 가지고 있어야한다.
+     * 따라서, create 함수는 항시 열려 있어야 하는(추상적인) 관점이 맞다. 더 불어서 해당 스크립트에서는 `createElement`를 가지고 있어야 하는 것 또한 맞다.
      */
-    create: function(){
-        const instance = Object.create(this);
-        instance.key = createKey();
-        instance.initialize = function(value){
-            return this.value = value;
-        };
-        return instance;
+
+    use: function(proto){
+        this.element = proto;
+        return this;
+    },
+
+    /**
+     * @todo 이렇게 하게 되면 결국 createElement를 활용한 상태를 관리하는 것이 되는게 맞나?
+     */
+    create: function(value){
+        // if(this.element === null){
+        if(!this.element){
+            console.warn("⚠️element is null, check use element");
+            return null;
+        }
+        // 2) createElement의 this를 주입된 프로토타입으로 고정
+		var make = createElement.bind(this.element);
+		var inst = make();           // Heap: 새 인스턴스, [[Prototype]] → this.element
+		// 3) 초기값 있으면 설정
+		if (arguments.length && inst.initialize) { inst.initialize(value) };
+        return inst;
     },
 
     /**
      * @title 데이터 관리 책임(key, value)
      * @description initialize 프로퍼티는 value를 설정하는 프로퍼티이다.
      */
-    initialize: function(value){
-        return this.value = value;
-    },
+    initialize: createElement.initialize,
     /**
      * @title 캐시 관리 책임
      * @description set 프로퍼티는 createCache를 통해서 로컬 캐시에 값을 할당 할 수 있게 한다. 사실상, set 보다는 saved 또는 initialize에 가깝다고 생각 된다.
