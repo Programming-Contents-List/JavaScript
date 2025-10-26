@@ -30,8 +30,8 @@ import { setGlobalCache, getGlobalCache } from "../../function/memory/createCach
  */
 
 const generateElement = {
-    key : null,
-    value : null,
+    // key : null,
+    // value : null,
 
     /**
      * @title 생성 책임
@@ -39,65 +39,65 @@ const generateElement = {
      * @remark create 프로퍼티는 새로운 객체를 생성한다. 단, generateElement의 프로퍼티를 상속 받고 있어 역할 분리가 명확하지 않다. 더불어서 현재, 팩토리 기반일 뿐, 캡슐화가 되어 있지 않아서, 객체 변경 시 외부에서 접근이 가능하다.
      * @todo 여기서 create는 과연 관심사 분리가 명확한가?
      */
-    create: function(){
-        const instance = Object.create(this);
-        instance.key = createKey();
-        instance.initialize = function(value){
-            return this.value = value;
-        };
-        return instance;
-    },
+    // create: function(){
+    //     const instance = Object.create(this);
+    //     instance.key = createKey();
+    //     instance.initialize = function(value){
+    //         return this.value = value;
+    //     };
+    //     return instance;
+    // },
 
     /**
      * @title 데이터 관리 책임(key, value)
      * @description initialize 프로퍼티는 value를 설정하는 프로퍼티이다.
      */
-    initialize: function(value){
-        return this.value = value;
-    },
+    // initialize: function(value){
+    //     return this.value = value;
+    // },
     /**
      * @title 캐시 관리 책임
      * @description set 프로퍼티는 createCache를 통해서 로컬 캐시에 값을 할당 할 수 있게 한다. 사실상, set 보다는 saved 또는 initialize에 가깝다고 생각 된다.
      * @remark set 프로퍼티는 자기 자신의 key와 value를 캐시에 저장한다. 다만, 로컬로 구현이 되어 있기 때문에, 외부에서 해당 캐시의 데이터 값을 확인하기에 적합하지 않으며, 어려움이 있다.
      * @returns {Map}
      */
-    set: function(){
-        if(this.value === null){
-            console.warn("⚠️value is null, check initialize value");
-        }
-        setGlobalCache(this.key, this.value);
-        return this;
-    },
+    // set: function(){
+    //     if(this.value === null){
+    //         console.warn("⚠️value is null, check initialize value");
+    //     }
+    //     setGlobalCache(this.key, this.value);
+    //     return this;
+    // },
     /**
      * @title 캐시 관리 책임
      */
-    get: function(){
-        return getGlobalCache().get(this.key);
-    },
-    // create: function(){
-    //     return {
-    //         key : createKey(),
-    //         value : null,
-    //         initialize: function(value){
-    //             return this.value = value;
-    //         },
-    //         /**
-    //          * @description set 프로퍼티는 createCache를 통해서 로컬 캐시에 값을 할당 할 수 있게 한다.
-    //          * @remark set 프로퍼티는 자기 자신의 key와 value를 캐시에 저장한다. 다만, 로컬로 구현이 되어 있기 때문에, 외부에서 해당 캐시의 데이터 값을 확인하기에 적합하지 않으며, 어려움이 있다.
-    //          * @returns {Map}
-    //          */
-    //         set: function(){
-    //             if(this.value === null){
-    //                 console.warn("⚠️value is null, check initialize value");
-    //             }
-    //             setGlobalCache(this.key, this.value);
-    //             return this;
-    //         },
-    //         get: function(){
-    //             return getGlobalCache().get(this.key);
-    //         }
-    //     }
-    // }
+    // get: function(){
+    //     return getGlobalCache().get(this.key);
+    // },
+    create: function(){
+        return {
+            key : createKey(),
+            value : null,
+            initialize: function(value){
+                return this.value = value;
+            },
+            /**
+             * @description set 프로퍼티는 createCache를 통해서 로컬 캐시에 값을 할당 할 수 있게 한다.
+             * @remark set 프로퍼티는 자기 자신의 key와 value를 캐시에 저장한다. 다만, 로컬로 구현이 되어 있기 때문에, 외부에서 해당 캐시의 데이터 값을 확인하기에 적합하지 않으며, 어려움이 있다.
+             * @returns {Map}
+             */
+            set: function(){
+                if(this.value === null){
+                    console.warn("⚠️value is null, check initialize value");
+                }
+                setGlobalCache(this.key, this.value);
+                return this;
+            },
+            get: function(){
+                return getGlobalCache().get(this.key);
+            }
+        }
+    }
 };
 
 export default generateElement;
