@@ -5,14 +5,24 @@
  * - [refactoring.guru](https://refactoring.guru/design-patterns/service-independence-pattern)
  */
 const elementService = {
+
+    validate : function(el){
+        return el.key !== null && el.value !== null;
+    },
+
     create: function(){
-        return { key: null, value:null}
+        return { key : null, value : null}
     },
-    get: function(key){
-        return this.key;
+
+    get: function(el){
+        return el;
     },
-    set: function(key, value){
-        this.key = key;
-        this.value = value;
+
+    set: function(el, key, value){
+       el.key = key;
+       el.value = value;
+       return el;
     }
 }
+
+export default elementService;
