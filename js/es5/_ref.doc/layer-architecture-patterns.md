@@ -16,6 +16,7 @@
 ### 1.1 표준 Layer (Linear Architecture)
 
 **구조:**
+> 현재 구조는 잘못되어 있다. 현재 구조와 맞지 않다.
 ```
 View/Hook → Service → Manager → Object
 ```
