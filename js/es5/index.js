@@ -1,3 +1,3 @@
-import generateElement from "./section2-3/object/literal/memory/generateElement.js";
+import elementManager from "./section2-3/object/literal/memory/elementManager.js";
 
-generateElement.initialize();
+elementManager.initialize();
