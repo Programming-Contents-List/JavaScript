@@ -1,4 +1,7 @@
+import chalk from "chalk";
 import elementService from "../../function/elementService.js";
+import util from "util";
+
 /**
  * @title 엘리먼트 생성 책임 : Manager 역할을 하는 객체이다.
  * @description elementManager는 엘리먼트를 상태만을 확인하는 책임을 가지고 있다. 그래서, element를 직접 조회하거나 설정하지 않는다. 그래서, element의 `내부`를 알 필요가 없다.
@@ -16,6 +19,7 @@ const elementManager = {
      */
     state: function() {
        if(!this.element) return false;
+       return true;
     //    현재 아래 코드는 state와는 무관한 코드이다.
     //    const {code} = elementService.validate(this.element);
     //    return code === 200;
@@ -33,17 +37,28 @@ const elementManager = {
     },
 
     get : function(){
-        console.log(this.element);
+        // console.log(this.element);
         return elementService.get(this.element);
     },
 
+    /**
+     * @deprecated set 함수는 key 값을 변경할 수 있기 때문에 더 이상 사용하지 않는다.
+     */
     set: function(key, value){
         if(!this.state()){
-            console.error("element is not initialized")
+            console.error(chalk.red("element is not initialized"));
             return;
         }
         this.element = elementService.set(this.element, key, value);
         return this.element;
+    },
+
+    setValue: function(value){
+        if(!this.state()){
+            console.error(chalk.red("element is not initialized"));
+            return;
+        }
+        this.element = elementService.setValue(this.element, value);
     }
 };
 
@@ -71,9 +86,13 @@ function withLogging(manager){
         if(typeof value === "function"){
             logged[key] = (function(keyName, originalFn){
                 return function(){
-                    console.log('[Mananger,', keyName, '] called:', arguments);
+                    console.log(chalk.bgGreen('[Mananger,', keyName, '] called:'), 
+                        util.inspect(arguments, { depth: null, colors: true }
+                    ));
                     var result = originalFn.apply(this, arguments);
-                    console.log('[Mananger,', keyName, '] returned:', result);
+                    console.log(chalk.bgGreen('[Mananger,', keyName, '] returned:'), 
+                        util.inspect(result, { depth: null, colors: true }
+                    ));
                     return result;
                 }
             })(key, value);
@@ -84,4 +103,19 @@ function withLogging(manager){
     return logged;
 }
 
-export default withLogging(elementManager);
+/**
+ * @type {typeof elementManager} 
+ * @title 엘리먼트 생성 책임 : Manager 역할을 하는 객체이다.
+ * @description elementManager는 엘리먼트를 상태만을 확인하는 책임을 가지고 있다. 그래서, element를 직접 조회하거나 설정하지 않는다. 그래서, element의 `내부`를 알 필요가 없다.
+ * @remark 이 객체는 싱글톤 패턴을 사용하기 위한 하나의 Manager이며 `피막`이다, `생명주기`를 관리하는 역할이다.
+ * @property {Object} element - 엘리먼트 객체
+ * @property {function} state - elementManager로 생성된 객체의 상태 값을 확인 할 수 있다.
+ * @property {function} initialize - 엘리먼트 초기화 함수
+ * @property {function} get - elementManager로 생성된 객체의 key, value 정의 된 값을 확인 할 수 있다.
+ * @property {function} set - set 함수는 key 값을 변경할 수 있기 때문에 더 이상 사용하지 않는다.
+ * @property {function} setValue - elementManager로 생성된 객체 value에 정의 된 값을 변경 할 수 있다.
+ */
+
+const loggerManager = withLogging(elementManager);
+
+export default loggerManager;

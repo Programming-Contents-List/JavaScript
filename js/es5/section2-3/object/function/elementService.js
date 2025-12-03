@@ -1,4 +1,8 @@
+import chalk from "chalk";
+import util from "util";
 import element from "../literal/element.js";
+import createKey from "./memory/createKey.js";
+
 /**
  * @title 엘리먼트 서비스 : 엘리먼트를 생성, 조회, 설정하는 서비스이다, 상태 없는 순수 함수다.
  * @reference 
@@ -25,7 +29,7 @@ const elementService = {
     },
 
     create: function(){
-        return { ...element };
+        return { ...element, key : createKey() };
     },
 
     get: function(el){
@@ -36,6 +40,11 @@ const elementService = {
        el.key = key;
        el.value = value;
        return el;
+    },
+
+    setValue: function(el, value){
+        el.value = value;
+        return el;
     }
 }
 
@@ -53,9 +62,15 @@ function withLogging(service){
         
         logged[method] = (function(methodName, originalFn){
             return function() {
-                console.log('[Service,', methodName, '] called:', arguments);
+                console.log(
+                    chalk.bgBlue('[Service,', methodName, '] called:'), 
+                    util.inspect(arguments, { depth: null, colors: true }
+                ));
                 var result = originalFn.apply(this, arguments);
-                console.log('[Service,', methodName, '] returned:', result);
+                console.log(
+                    chalk.bgBlue('[Service,', methodName, '] returned:'), 
+                    util.inspect(result, { depth: null, colors: true }
+                ));
                 return result;
             }
         })(method, service[method]);
@@ -63,4 +78,13 @@ function withLogging(service){
     return logged;
 }
 
-export default withLogging(elementService);
+/**
+ * @title 엘리먼트 서비스 : 엘리먼트를 생성, 조회, 설정하는 서비스이다, 상태 없는 순수 함수다.
+ * @reference 
+ * - [service-independence-pattern](js/es5/_ref.doc/service-independence-patterns.md)
+ * - [refactoring.guru](https://refactoring.guru/design-patterns/service-independence-pattern)
+ */
+
+const loggerService = withLogging(elementService);
+
+export default loggerService;
