@@ -8,7 +8,7 @@
  */
 
 /** @type {Element} */
-const element = {
+var element = {
     key : "",
     value : ""
 }
