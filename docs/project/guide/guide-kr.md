@@ -244,6 +244,72 @@ js/es5/section2-3/object/
 
 ---
 
+## 업데이트 아키텍처
+
+### 실무 네이밍 컨벤션 적용
+
+**레이어별 네이밍:**
+
+| 레이어 | 역할 | 접미사 |
+|--------|------|--------|
+| Model/Entity | 데이터 구조 | `.model.js`, `.entity.js` |
+| Repository | 저장/조회 | `Repo.js`, `Repository.js` |
+| Service | 비즈니스 로직 | `Service.js` |
+| Store | 상태 저장소 | `Store.js` |
+
+### 디렉토리 구조
+
+```
+js/es5/section2-3/project/
+|
++-- model/
+|   +-- node.js                 <- 데이터 모델
+|
++-- repository/
+|   +-- memoryRepo.js           <- 메모리 풀 저장소
+|   +-- cacheRepo.js            <- 캐시 저장소
+|
++-- service/
+    +-- gcService.js            <- GC 비즈니스 로직
+```
+
+### Heap 관점 매핑
+
+```
++------------------------------------------+
+|            실무 네이밍 ↔ 역할              |
++------------------------------------------+
+|  memoryRepo    <- pool 관리 (CRUD)        |
+|  cacheRepo     <- LRU 캐시 관리           |
+|  gcService     <- refCount 기반 정리      |
+|  node (model)  <- 메모리 블록 구조        |
++------------------------------------------+
+```
+
+### Repository 패턴 적용 시 Heap 뷰
+
+```
++--------------------------------------------------+
+|                    JS Heap                        |
++--------------------------------------------------+
+|                                                   |
+|  memoryRepo (0xMR001)                            |
+|  +-- pool: { ... }  ----+                        |
+|                         |                        |
+|  cacheRepo (0xCR001)    |                        |
+|  +-- cache: { ... } ----|---> 동일 Node 참조      |
+|  +-- order: [ ... ]     |    (참조 공유)          |
+|                         |                        |
+|  Node (0x001) <---------+                        |
+|  +-- address: "0x001"                            |
+|  +-- value: "Tester"                             |
+|  +-- refCount: 2        <- pool + cache 참조     |
+|                                                   |
++--------------------------------------------------+
+```
+
+---
+
 ## LRU reference
 
 - [link](https://www.youtube.com/watch?v=yiPqTPkVDrY&t=2s)
