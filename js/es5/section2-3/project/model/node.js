@@ -10,9 +10,9 @@
  * @property {string} createdAt - 생성 시간
  * @property {string} updatedAt - 업데이트 시간
  * @property {string} lastAccess - 마지막 접근 시간
+ * @type {MemoryNode}
  */
 
-/** @type {MemoryNode} */
 var node = {
     address: "",
     value: "",
@@ -21,3 +21,5 @@ var node = {
     updatedAt: "",
     lastAccess: ""
 }
+
+export default node;

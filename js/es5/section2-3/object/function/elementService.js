@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import util from "util";
-import element from "../literal/element.js";
+import element from "../../project/model/element.js";
 import createKey from "./memory/createKey.js";
 
 /**
