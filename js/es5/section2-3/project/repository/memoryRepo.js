@@ -1,48 +1,48 @@
 import createKey from '../../object/function/memory/createKey.js';
-import node from '../model/node.js';
 
 var memoryRepo = (function(){
-    var pool = (function(){
-        var memoryNode = node;  // alias
-        return{
-            initialize: (
-                var date = toString(new Date.now()),
+    var pool = {};
 
-                function(){ // instance/create
-                address: createKey;
-                value: "initialize value";
-                refCount: 0;
-                createdAt: date;
-                updatedAt: "";
-                lastAccess: "";
-            }),
-            getKey: function(){
-                return this.memoryNode.address;
-            },
-            getNode: function(){
-                return this.memoryNode;
-            },
-            putNode: function(value, refCount, updatedAt, lastAccess){
-                address: this.memoryNode.address;
-                value: value;
-                refCount: refCount;
-                createdAt: this.date;
-                updatedAt: updatedAt;
-                lastAccess: lastAccess; 
-            },
-            delNode: function(address){
-                if(this.memoryNode.address === address){
-                    memoryNode.pop();
-                }
-            }
+    function initialize(value){ // instance/create
+        var address = createKey();
+        pool[address] = {
+            address: address,
+            value: value,
+            refCount: 0,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            lastAccess: Date.now()
+        };
+        return address;
+    };
+
+    function getNode(address) {
+        return pool[address];
+    }
+
+    function putNode(address, value, lastAccess, refCount){
+        pool[address] = {
+            address: address,
+            value: value,
+            refCount: refCount,
+            createdAt: getNode(address).createdAt,
+            updatedAt: Date.now(),
+            lastAccess: lastAccess
         }
-    })
+    }
+
+    function delNode(address) {
+        delete pool[address];
+        return address;
+    }
 
     return{
-        create: pool.initialize(),
-        read: this.getNode(),
-        update: this.putNode(),
-        delete: this.delNode(),
-        readKey: this.getKey()
+        create: initialize,
+        read: getNode,
+        update: putNode,
+        delete: delNode,
+        // readKey: getKey()
     };
 })();
+
+export default memoryRepo;
