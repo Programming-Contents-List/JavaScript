@@ -1,4 +1,41 @@
-# 지침
+# Repository Guidelines
+
+## Project Structure & Module Organization
+- `js/es5` holds the active learning code; `index.js` is the entry that wires together managers and services under `section2-3/object/...`.
+- `index.html` is a static playground for browser-based experiments; `js/README.md` and `js/es5/README.md` explain the ES5-focused study context.
+- `docs/` contains study notes; `_legacy/` keeps older experiments—avoid editing unless you intend to migrate them.
+- Configuration lives at `eslint.config.js`, `biome.json`, and `jsconfig.json`; runtime dependency (`chalk`) and dev tooling are tracked in `package.json`/`package-lock.json`.
+
+## Build, Test, and Development Commands
+- `npm start` — runs `node js/es5/index.js` to execute the current object-model experiment; expect console logging with `chalk`.
+- `npm run lint` — ESLint with `eslint-plugin-es5` to flag ES2015+ usage and common pitfalls.
+- `npm run format` — Biome formatter (2-space indent, double quotes) to normalize style.
+- `npm run check` — convenience script that runs lint then format; use before committing.
+
+## Coding Style & Naming Conventions
+- Target ES5 semantics even though the repo uses ESM imports; avoid ES2015 syntax disallowed by the lint config (e.g., `let`, arrow functions).
+- Prefer object-literal modules for roles (`elementManager`, `elementService`); keep stateful “manager” objects thin and push logic into stateless “service” functions.
+- Indentation: 2 spaces; Strings: double quotes; Logging: `chalk` for emphasis; Keep JSDoc blocks for non-trivial functions or modules.
+- File naming: lowercase with words separated by camelCase segments that match their role, e.g., `createKey.js`, `elementService.js`.
+
+## Testing Guidelines
+- No automated test harness is configured; validate changes by running `npm start` and exercising functions in `js/es5/index.js` or ad-hoc scripts under `js/es5/section2-3/`.
+- Keep pure logic isolated so it can be inspected directly (return values rather than side effects); add temporary assertions or logs and remove them before committing.
+- If you add formal tests later, colocate them near the module (`js/es5/.../__tests__/module.test.js`) and ensure they are runnable via `npm test` after adding a script.
+
+## Commit & Pull Request Guidelines
+- Follow the existing log style: emoji prefix + colon + short summary (often in Korean), e.g., `📝: docs 정리`, `✨: 기능 추가`.
+- One change per commit where feasible; include why the change is needed in the body if not obvious.
+- Pull requests should list the change scope, how to run the verification (commands and expected output), and any screenshots if HTML/DOM behavior changes.
+- Link related docs or issues when available, and call out breaking changes or new manual steps explicitly.
+
+## Security & Configuration Tips
+- Respect the ES5 lint rules to keep compatibility with the study focus; avoid adding build steps unless necessary.
+- Do not commit secrets; dependencies are pinned via `package-lock.json`—run `npm install` without extra flags to preserve versions.
+
+===
+
+## 나의 지침
 
 ## 환경
 > 항상 한글로 답하세요.
