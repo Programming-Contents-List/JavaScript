@@ -1,4 +1,4 @@
-var createKey = require('../utils/createKey.js');
+import createKey from '../utils/createKey.js';
 
 /**
  * @Todo ES5 환경 비호환 (미해결)
@@ -66,4 +66,4 @@ var memoryRepo = (function(){
     };
 })();
 
-module.exports = memoryRepo;
+export default memoryRepo;

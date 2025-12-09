@@ -7,4 +7,4 @@ function createKey(){
     return key.replace(".", "i").slice(0, 10);
 }
 
-module.exports = createKey;
+export default createKey

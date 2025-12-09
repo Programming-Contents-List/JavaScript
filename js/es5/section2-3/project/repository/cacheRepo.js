@@ -1,7 +1,12 @@
 // 해당 코드에는 LRU가 동작할 `자료구조`만 존재, 그렇다면 자료 구조란 무엇인가?
 // cacheRepo는 외부에서 접근이 불가능 해야하나? IIFE 방식으로 작성해야하나?
 // B 방식으로 구현 추후에 A 방식 추가, map을 직접 구현
-
+// - 최적화 방안: Doubly Linked List + HashMap → O(1)
+/**
+ *   - 메모리 누수 문제 해결
+ *   - gcService 연동 준비 완료
+ *   - 캡슐화 및 API 설계 적절
+ */
 var cacheRepo = (function(){
     var cache = {}  //model, momory 값을 복사 - Dictionary, 단, 순서가 보장되지 않음.
     var order = []  //cache의 순위 즉, history, 앞의 값이 가장 오래됨. 단, 순서는 보장됨.
@@ -53,13 +58,18 @@ var cacheRepo = (function(){
         }
     }
 
+    /** cache와 order를 둘 다 제거하는 로직 */
+    function removeFromCache(key){
+        removeFromOrder(key);
+        delete cache[key];
+    }
+
     return{
         get: get,
         set: set,
-        remove: removeFromOrder
-        // gcRemove: removeFromCache
+        gcRemove: removeFromCache
     }
 
 })();
 
-module.exports = cacheRepo;
+export default cacheRepo;

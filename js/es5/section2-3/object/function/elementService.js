@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import util from "util";
 import element from "../../project/model/element.js";
-import createKey from "./memory/createKey.js";
+import createKey from "../../project/utils/createKey.js";
 
 /**
  * @title 엘리먼트 서비스 : 엘리먼트를 생성, 조회, 설정하는 서비스이다, 상태 없는 순수 함수다.

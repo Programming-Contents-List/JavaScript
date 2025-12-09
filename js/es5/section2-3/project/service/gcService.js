@@ -4,8 +4,8 @@
  * memoryRepo.pool 직접 접근 허용?
  */
 
-var memoryRepo = require("../repository/memoryRepo");
-var cacheRepo = require("../repository/cacheRepo");
+import memoryRepo from "../repository/memoryRepo";
+import cacheRepo  from "../repository/cacheRepo";
 
 var gcService = (function(){
     function collect(){
@@ -21,7 +21,7 @@ var gcService = (function(){
             // 타입 체크는 추후에 추가 예정
             if(node.refCount === 0){
                 memoryRepo.delete(address);
-                cacheRepo.remove(address);
+                cacheRepo.gcRemove(address);
             }
         }
     }
@@ -31,4 +31,4 @@ var gcService = (function(){
     }
 })();
 
-module.exports = gcService;
+export default gcService;
